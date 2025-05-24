@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../features/authSlice';
 import { RootState } from '@store/store';
 import { Box, TextField, Button, Typography, Container, Paper } from '@mui/material';
+import { enqueueSnackbar } from 'notistack';
 
 const RegisterPage: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -11,17 +12,21 @@ const RegisterPage: React.FC = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    // @ts-ignore
     const { isLoading } = useSelector((state: RootState) => state.auth);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            alert("Passwords don't match!");
+            enqueueSnackbar("Passwords don't match!", { variant: 'error' });
             return;
         }
-        await dispatch(registerUser(username, password) as any);
-        navigate('/login');
+        const success = await dispatch(registerUser(username, password) as any);
+        if (success) {
+            navigate('/'); // Navigate to home page or dashboard after successful registration
+        }
     };
+
 
     return (
         <Container maxWidth="xs">
