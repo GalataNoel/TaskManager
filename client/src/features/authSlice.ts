@@ -60,11 +60,15 @@ export const loginUser = (username: string, password: string) => async (dispatch
 export const registerUser = (username: string, password: string) => async (dispatch: AppDispatch) => {
     try {
         dispatch(setLoading(true));
-        await authService.register(username, password);
+        const registerResponse = await authService.register(username, password);
+        // After successful registration, automatically log in
+        dispatch(setCredentials(registerResponse));
         enqueueSnackbar('Registration successful', { variant: 'success' });
+        return true; // Indicate success
     } catch (error: any) {
         dispatch(setError(error.message));
         enqueueSnackbar(error.message, { variant: 'error' });
+        return false; // Indicate failure
     }
 };
 
