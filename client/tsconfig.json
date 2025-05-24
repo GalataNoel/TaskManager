@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
     "typeRoots": ["./node_modules/@types", "./src/types"],
-    "types": ["node"],
+    "types": ["node", "jest"],
     "target": "es5",
     "lib": [
       "dom",
@@ -31,10 +30,6 @@
       "@utils/*": ["utils/*"],
       "@types/*": ["types/*"]
     },
-    "types": [
-      "node",
-      "jest"
-    ]
   },
   "include": [
     "src"
